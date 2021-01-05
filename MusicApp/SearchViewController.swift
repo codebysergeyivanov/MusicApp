@@ -8,8 +8,9 @@
 import UIKit
 
 class SearchViewController: UITableViewController {
-    
+    let networkService = NetworkService()
     let searchController = UISearchController(searchResultsController: nil)
+    var timer: Timer?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +43,14 @@ class SearchViewController: UITableViewController {
 }
 
 extension SearchViewController: UISearchBarDelegate {
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print(searchText)
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: {[weak self]_ in
+            self?.networkService.fetchTracks(searchText: searchText) {
+                objects in
+                print(objects)
+            }
+        })
     }
 }
