@@ -8,7 +8,7 @@
 import UIKit
 import Alamofire
 
-class NetworkService {
+class Network {
     func fetchTracks(searchText: String, complition: @escaping (SearchResponse?) -> Void) {
         let url = "https://itunes.apple.com/search"
         let parametrs = ["term":"\(searchText)","media":"music","limit":"10"]
@@ -23,7 +23,7 @@ class NetworkService {
                     }
                     
                     guard let data = response.data else { return }
-        
+                    
                     let decoder = JSONDecoder()
                     do {
                         let objects = try decoder.decode(SearchResponse.self, from: data)
