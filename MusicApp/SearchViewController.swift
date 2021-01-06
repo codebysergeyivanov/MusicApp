@@ -11,6 +11,7 @@ class SearchViewController: UITableViewController {
     let networkService = NetworkService()
     let searchController = UISearchController(searchResultsController: nil)
     var timer: Timer?
+    var tracks: [Track] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,13 +30,14 @@ class SearchViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return tracks.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CellID")!
         cell.imageView?.image = UIImage(named: "pic")
-        cell.textLabel?.text = "Рыбка моя \nФиллип Киркоров"
+        let track = tracks[indexPath.row]
+        cell.textLabel?.text = "\(track.trackName) \n\(track.artistName)"
         cell.textLabel?.numberOfLines = 2
         return cell
     }
@@ -49,7 +51,8 @@ extension SearchViewController: UISearchBarDelegate {
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: {[weak self]_ in
             self?.networkService.fetchTracks(searchText: searchText) {
                 objects in
-                print(objects)
+                self?.tracks = objects?.results ?? []
+                self?.tableView.reloadData()
             }
         })
     }
