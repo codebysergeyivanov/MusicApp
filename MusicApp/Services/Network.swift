@@ -11,7 +11,7 @@ import Alamofire
 class Network {
     func fetchTracks(searchText: String, complition: @escaping (SearchResponse?) -> Void) {
         let url = "https://itunes.apple.com/search"
-        let parametrs = ["term":"\(searchText)","media":"music","limit":"10"]
+        let parametrs = ["term":"\(searchText)","media":"music","limit":"100"]
         AF.request(url,
                    method: .get,
                    parameters: parametrs,

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 protocol TrackCell {
     var artistName: String { get }
@@ -27,11 +28,24 @@ class TableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        trackImage.image = nil
+    }
 
     func set(viewModel: TrackCell) {
         trackName.text = viewModel.trackName
         artistName.text = viewModel.artistName
         collectionName.text = viewModel.collectionName
+        
+        if let url = URL(string: viewModel.imageUrl ?? "") {
+            trackImage.sd_setImage(with: url, completed: nil)
+        } else {
+            trackImage.image = UIImage(systemName: "photo")
+            trackImage.tintColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        }
     }
 
 }

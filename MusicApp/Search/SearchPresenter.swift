@@ -28,8 +28,9 @@ class SearchPresenter: SearchPresentationLogic
 
         switch response {
         case .normalizeTracks(let searchResponse):
-            let viewModel = Search.Something.ViewModel.ViewModelType.presentTracks(tracks: searchResponse?.results ?? [])
-            viewController?.displaySomething(viewModel: viewModel)
+            viewController?.displaySomething(viewModel: Search.Something.ViewModel.ViewModelType.presentTracks(tracks: searchResponse?.results ?? []))
+        case .loader:
+            viewController?.displaySomething(viewModel: Search.Something.ViewModel.ViewModelType.presentLoader)
         }
   }
 }

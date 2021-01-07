@@ -15,6 +15,9 @@
 		3E8DAC6325A45FA900ECF2FE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E8DAC6125A45FA900ECF2FE /* LaunchScreen.storyboard */; };
 		3E8DAC7025A4603100ECF2FE /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8DAC6F25A4603100ECF2FE /* TabBarViewController.swift */; };
 		3E8DAC7C25A4A8D300ECF2FE /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8DAC7B25A4A8D300ECF2FE /* Network.swift */; };
+		3EA67F6D25A70A9C00B9AC34 /* TrackView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EA67F6C25A70A9C00B9AC34 /* TrackView.xib */; };
+		3EA67F7025A70AAE00B9AC34 /* TrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA67F6F25A70AAE00B9AC34 /* TrackView.swift */; };
+		3EA67F7825A70B8900B9AC34 /* SearchFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA67F7725A70B8900B9AC34 /* SearchFooterView.swift */; };
 		3EF9B7A925A5AE7600FC9426 /* SearchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF9B7A325A5AE7600FC9426 /* SearchPresenter.swift */; };
 		3EF9B7AA25A5AE7600FC9426 /* SearchWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF9B7A425A5AE7600FC9426 /* SearchWorker.swift */; };
 		3EF9B7AB25A5AE7600FC9426 /* SearchRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF9B7A525A5AE7600FC9426 /* SearchRouter.swift */; };
@@ -40,6 +43,9 @@
 		3E8DAC6425A45FA900ECF2FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3E8DAC6F25A4603100ECF2FE /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		3E8DAC7B25A4A8D300ECF2FE /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		3EA67F6C25A70A9C00B9AC34 /* TrackView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrackView.xib; sourceTree = "<group>"; };
+		3EA67F6F25A70AAE00B9AC34 /* TrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackView.swift; sourceTree = "<group>"; };
+		3EA67F7725A70B8900B9AC34 /* SearchFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFooterView.swift; sourceTree = "<group>"; };
 		3EF9B7A325A5AE7600FC9426 /* SearchPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPresenter.swift; sourceTree = "<group>"; };
 		3EF9B7A425A5AE7600FC9426 /* SearchWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWorker.swift; sourceTree = "<group>"; };
 		3EF9B7A525A5AE7600FC9426 /* SearchRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRouter.swift; sourceTree = "<group>"; };
@@ -107,9 +113,28 @@
 			path = MusicApp;
 			sourceTree = "<group>";
 		};
+		3EA67F5C25A709E300B9AC34 /* TrackView */ = {
+			isa = PBXGroup;
+			children = (
+				3EA67F6C25A70A9C00B9AC34 /* TrackView.xib */,
+				3EA67F6F25A70AAE00B9AC34 /* TrackView.swift */,
+			);
+			path = TrackView;
+			sourceTree = "<group>";
+		};
+		3EA67F7225A70B2400B9AC34 /* SearchFooterView */ = {
+			isa = PBXGroup;
+			children = (
+				3EA67F7725A70B8900B9AC34 /* SearchFooterView.swift */,
+			);
+			path = SearchFooterView;
+			sourceTree = "<group>";
+		};
 		3EF9B7A225A5AE3F00FC9426 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				3EA67F7225A70B2400B9AC34 /* SearchFooterView */,
+				3EA67F5C25A709E300B9AC34 /* TrackView */,
 				3EF9B7CB25A5F43400FC9426 /* Cell */,
 				3EF9B7BD25A5DD1800FC9426 /* SearchViewController.storyboard */,
 				3EF9B7A725A5AE7600FC9426 /* SearchViewController.swift */,
@@ -236,6 +261,7 @@
 			files = (
 				3E8DAC6325A45FA900ECF2FE /* LaunchScreen.storyboard in Resources */,
 				3EF9B7D125A5F58500FC9426 /* TableViewCell.xib in Resources */,
+				3EA67F6D25A70A9C00B9AC34 /* TrackView.xib in Resources */,
 				3E8DAC6025A45FA900ECF2FE /* Assets.xcassets in Resources */,
 				3E8DAC5E25A45FA700ECF2FE /* Main.storyboard in Resources */,
 				3EF9B7BE25A5DD1800FC9426 /* SearchViewController.storyboard in Resources */,
@@ -292,7 +318,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3EF9B7D425A5F5AC00FC9426 /* TableViewCell.swift in Sources */,
+				3EA67F7825A70B8900B9AC34 /* SearchFooterView.swift in Sources */,
 				3EF9B7B725A5D1B000FC9426 /* UIViewControllerExtension.swift in Sources */,
+				3EA67F7025A70AAE00B9AC34 /* TrackView.swift in Sources */,
 				3E8DAC7025A4603100ECF2FE /* TabBarViewController.swift in Sources */,
 				3E8DAC5B25A45FA700ECF2FE /* LibraryViewController.swift in Sources */,
 				3EF9B7AE25A5AE7600FC9426 /* SearchInteractor.swift in Sources */,

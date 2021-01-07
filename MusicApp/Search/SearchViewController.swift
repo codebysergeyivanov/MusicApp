@@ -57,8 +57,13 @@ class SearchViewController: UIViewController, SearchDisplayLogic
         super.viewDidLoad()
         setup()
         setupSearchController()
+        setupTableView()
+    }
+    
+    private func setupTableView() {
         let nib = UINib(nibName: "TableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: TableViewCell.reuseId)
+        tableView.tableFooterView = searchFooterView
     }
     
     private func setupSearchController() {
@@ -74,6 +79,7 @@ class SearchViewController: UIViewController, SearchDisplayLogic
     let searchController = UISearchController(searchResultsController: nil)
     var timer: Timer?
     var tracks: [Track] = []
+    lazy var searchFooterView = SearchFooterView()
     
     
     func displaySomething(viewModel: Search.Something.ViewModel.ViewModelType)
@@ -82,6 +88,9 @@ class SearchViewController: UIViewController, SearchDisplayLogic
         case .presentTracks(let tracks):
             self.tracks = tracks
             tableView.reloadData()
+            searchFooterView.hideLoader()
+        case .presentLoader:
+            searchFooterView.showLoader()
         }
     }
 }
@@ -96,13 +105,24 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.reuseId) as! TableViewCell
         let trackCell = tracks[indexPath.row]
-        cell.trackImage.image = UIImage(named: "pic")
         cell.set(viewModel: trackCell)
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.text = "Enter the text above and press enter"
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        return label
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return tracks.count == 0 ? 250 : 0
     }
     
 }

@@ -43,9 +43,9 @@ class SearchInteractor: SearchBusinessLogic, SearchDataStore
     }
     
     func fetchRequest(searchText: String) {
+        presenter?.presentSomething(response: Search.Something.Response.ResponseType.loader)
         networkService.fetchTracks(searchText: searchText) { [weak self] searchResponse in
-            let response = Search.Something.Response.ResponseType.normalizeTracks(searchResponse: searchResponse)
-            self?.presenter?.presentSomething(response: response)
+            self?.presenter?.presentSomething(response: Search.Something.Response.ResponseType.normalizeTracks(searchResponse: searchResponse))
         }
     }
     

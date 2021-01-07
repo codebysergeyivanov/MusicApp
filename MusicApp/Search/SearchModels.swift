@@ -28,12 +28,14 @@ enum Search
     {
         enum ResponseType {
             case normalizeTracks(searchResponse: SearchResponse?)
+            case loader
         }
     }
     struct ViewModel
     {
         enum ViewModelType {
             case presentTracks(tracks: [Track])
+            case presentLoader
         }
     }
   }
