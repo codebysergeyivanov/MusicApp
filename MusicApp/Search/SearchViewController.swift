@@ -106,6 +106,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.reuseId) as! TableViewCell
         let trackCell = tracks[indexPath.row]
         cell.set(viewModel: trackCell)
+        cell.selectionStyle = .none
         return cell
     }
     
@@ -123,6 +124,14 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return tracks.count == 0 ? 250 : 0
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let window = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+        let trackView = Bundle.main.loadNibNamed("TrackView", owner: self, options: nil)?.first as! TrackView
+        let trackViewModel = tracks[indexPath.row]
+        trackView.set(viewModel: trackViewModel)
+        window?.addSubview(trackView)
     }
     
 }
