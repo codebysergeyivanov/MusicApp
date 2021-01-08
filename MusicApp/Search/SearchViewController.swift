@@ -81,6 +81,7 @@ class SearchViewController: UIViewController, SearchDisplayLogic
     var timer: Timer?
     var tracks: [Track] = []
     lazy var searchFooterView = SearchFooterView()
+    var trackViewDelegate: TrackViewDelegate?
     
     
     func displaySomething(viewModel: Search.Something.ViewModel.ViewModelType)
@@ -127,12 +128,8 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let window = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
         let trackViewModel = tracks[indexPath.row]
-        let trackView: TrackView = TrackView.loadFromNib()
-        trackView.delegate = self
-        trackView.set(viewModel: trackViewModel)
-        window?.addSubview(trackView)
+        trackViewDelegate?.maxSizeTrackView(viewModel: trackViewModel)
     }
     
 }

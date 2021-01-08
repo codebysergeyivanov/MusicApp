@@ -9,6 +9,11 @@ import UIKit
 import SDWebImage
 import AVKit
 
+protocol TrackViewDelegate: class {
+    func maxSizeTrackView(viewModel: Track) -> Void
+    func minSizeTrackView() -> Void
+}
+
 
 protocol SwitchTrackDelegate: class {
     func playNextTrack() -> Track?
@@ -27,6 +32,7 @@ class TrackView: UIView {
     @IBOutlet weak var soundSlider: UISlider!
     
     weak var delegate: SwitchTrackDelegate?
+    weak var trackViewDelegate: TrackViewDelegate?
     
     var player: AVPlayer = {
         let player = AVPlayer()
@@ -107,7 +113,7 @@ class TrackView: UIView {
     // MARK: - @IBAction
     
     @IBAction func chevronTapped(_ sender: Any) {
-       self.removeFromSuperview()
+        trackViewDelegate?.minSizeTrackView()
     }
     
     @IBAction func dragTimeSlider(_ sender: Any) {
@@ -139,3 +145,4 @@ class TrackView: UIView {
         player.volume = soundSlider.value
     }
 }
+

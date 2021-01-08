@@ -7,22 +7,29 @@
 
 import UIKit
 
-class TabBarViewController: UITabBarController {
 
+class TabBarViewController: UITabBarController {
+    let searchVC: SearchViewController = SearchViewController.loadFromStoryboard()
+    var trackView: TrackView!
+    var maxTop: NSLayoutConstraint?
+    var minTop: NSLayoutConstraint?
+    var bottom: NSLayoutConstraint?
+
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = .white
         tabBar.tintColor = .purple
         
-        let searchVC: SearchViewController = SearchViewController.loadFromStoryboard()
+        searchVC.trackViewDelegate = self
     
         viewControllers = [
             generateViewController(rootViewController: searchVC, image: UIImage(systemName: "magnifyingglass")!, title: "Search"),
             generateViewController(rootViewController: LibraryViewController(), image: UIImage(systemName: "music.note.list")!, title: "Library")
         ]
         
-        setupTrackView()
     }
     
     private func generateViewController(rootViewController: UIViewController, image: UIImage, title: String) -> UINavigationController {
@@ -35,8 +42,56 @@ class TabBarViewController: UITabBarController {
     }
     
     private func setupTrackView() {
-        let trackView: TrackView = TrackView.loadFromNib()
+        trackView = TrackView.loadFromNib()
+        trackView.delegate = searchVC
+        trackView.trackViewDelegate = self
         view.insertSubview(trackView, belowSubview: tabBar)
+        
+        maxTop = trackView.topAnchor.constraint(equalTo: view.topAnchor)
+        minTop = trackView.topAnchor.constraint(equalTo: tabBar.topAnchor, constant: -64)
+        bottom = trackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        
+        trackView.translatesAutoresizingMaskIntoConstraints = false
+        maxTop?.isActive = true
+        trackView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        trackView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        bottom?.isActive = true
+        
+        tabBar.alpha = 0
     }
 
 }
+
+extension TabBarViewController: TrackViewDelegate {
+    
+    func maxSizeTrackView(viewModel: Track) {
+        if trackView == nil {
+            setupTrackView()
+        }
+        self.minTop?.isActive = false
+        bottom?.constant = 0
+        self.maxTop?.isActive = true
+        
+        self.tabBar.alpha = 0
+        
+        trackView.set(viewModel: viewModel)
+
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 2, options: .curveEaseInOut, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+    }
+    
+    func minSizeTrackView() {
+        self.maxTop?.isActive = false
+        bottom?.constant = view.frame.height
+        self.minTop?.isActive = true
+        
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 2, options: .curveEaseInOut, animations: {
+            self.view.layoutIfNeeded()
+            self.tabBar.alpha = 1
+        }, completion: nil)
+    }
+    
+}
+
+
