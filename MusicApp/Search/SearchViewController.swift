@@ -96,7 +96,7 @@ class SearchViewController: UIViewController, SearchDisplayLogic
     }
 }
 
-// MARK: UITableViewDelegate, UITableViewDataSource
+// MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -107,7 +107,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.reuseId) as! TableViewCell
         let trackCell = tracks[indexPath.row]
         cell.set(viewModel: trackCell)
-        cell.selectionStyle = .none
         return cell
     }
     
@@ -129,15 +128,16 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let window = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
-        let trackView = Bundle.main.loadNibNamed("TrackView", owner: self, options: nil)?.first as! TrackView
         let trackViewModel = tracks[indexPath.row]
+        let trackView: TrackView = TrackView.loadFromNib()
+        trackView.delegate = self
         trackView.set(viewModel: trackViewModel)
         window?.addSubview(trackView)
     }
     
 }
 
-// MARK: UISearchBarDelegate
+// MARK: - UISearchBarDelegate
 
 extension SearchViewController: UISearchBarDelegate {
     
@@ -148,4 +148,37 @@ extension SearchViewController: UISearchBarDelegate {
             self.interactor?.doSomething(request: request)
         })
     }
+}
+
+// MARK: - witchTrackDelegate
+extension SearchViewController: SwitchTrackDelegate {
+    func switchTrack(isForwardTrack: Bool) -> Track? {
+        guard let selectedIndex = tableView.indexPathForSelectedRow else { return nil }
+        tableView.deselectRow(at: selectedIndex, animated: true)
+        var indexPath: IndexPath!
+        if isForwardTrack {
+            indexPath = IndexPath(row: selectedIndex.row + 1, section: selectedIndex.section)
+            if indexPath.row == tracks.count {
+                indexPath.row = 0
+            }
+        } else {
+            indexPath = IndexPath(row: selectedIndex.row - 1, section: selectedIndex.section)
+            if indexPath.row < 0 {
+                indexPath.row = tracks.count - 1
+            }
+        }
+        tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+        return tracks[indexPath.row]
+    }
+    
+    func playNextTrack() -> Track? {
+        return switchTrack(isForwardTrack: true)
+        
+    }
+    
+    func playPreviousTrack() -> Track? {
+        return switchTrack(isForwardTrack: false)
+    }
+    
+    
 }

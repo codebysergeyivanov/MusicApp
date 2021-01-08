@@ -28,6 +28,7 @@
 		3EF9B7BE25A5DD1800FC9426 /* SearchViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3EF9B7BD25A5DD1800FC9426 /* SearchViewController.storyboard */; };
 		3EF9B7D125A5F58500FC9426 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EF9B7D025A5F58500FC9426 /* TableViewCell.xib */; };
 		3EF9B7D425A5F5AC00FC9426 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF9B7D325A5F5AC00FC9426 /* TableViewCell.swift */; };
+		3EFC7C7F25A8656500AA1427 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFC7C7E25A8656500AA1427 /* UIViewExtension.swift */; };
 		4788ED051CA3634D86A904B9 /* Pods_MusicApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10D447680CA188F227B6EEF9 /* Pods_MusicApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -56,6 +57,7 @@
 		3EF9B7BD25A5DD1800FC9426 /* SearchViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SearchViewController.storyboard; sourceTree = "<group>"; };
 		3EF9B7D025A5F58500FC9426 /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
 		3EF9B7D325A5F5AC00FC9426 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		3EFC7C7E25A8656500AA1427 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		C568B3FE28D91DD6898FB9E9 /* Pods-MusicApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicApp.release.xcconfig"; path = "Target Support Files/Pods-MusicApp/Pods-MusicApp.release.xcconfig"; sourceTree = "<group>"; };
 		F22A849C2A935582F8E46091 /* Pods-MusicApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicApp.debug.xcconfig"; path = "Target Support Files/Pods-MusicApp/Pods-MusicApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -151,6 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				3EF9B7B625A5D1B000FC9426 /* UIViewControllerExtension.swift */,
+				3EFC7C7E25A8656500AA1427 /* UIViewExtension.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 				3EA67F7025A70AAE00B9AC34 /* TrackView.swift in Sources */,
 				3E8DAC7025A4603100ECF2FE /* TabBarViewController.swift in Sources */,
 				3E8DAC5B25A45FA700ECF2FE /* LibraryViewController.swift in Sources */,
+				3EFC7C7F25A8656500AA1427 /* UIViewExtension.swift in Sources */,
 				3EF9B7AE25A5AE7600FC9426 /* SearchInteractor.swift in Sources */,
 				3E8DAC5725A45FA700ECF2FE /* AppDelegate.swift in Sources */,
 				3EF9B7AA25A5AE7600FC9426 /* SearchWorker.swift in Sources */,

@@ -9,6 +9,12 @@ import UIKit
 import SDWebImage
 import AVKit
 
+
+protocol SwitchTrackDelegate: class {
+    func playNextTrack() -> Track?
+    func playPreviousTrack() -> Track?
+}
+
 class TrackView: UIView {
     
     @IBOutlet weak var chevron: UIButton!
@@ -19,6 +25,8 @@ class TrackView: UIView {
     @IBOutlet weak var trackName: UILabel!
     @IBOutlet weak var trackAuthor: UILabel!
     @IBOutlet weak var soundSlider: UISlider!
+    
+    weak var delegate: SwitchTrackDelegate?
     
     var player: AVPlayer = {
         let player = AVPlayer()
@@ -84,8 +92,12 @@ class TrackView: UIView {
         }
     }
     @IBAction func nextTrackTapped(_ sender: Any) {
+        guard let nextTrack = delegate?.playNextTrack() else { return }
+        set(viewModel: nextTrack)
     }
     @IBAction func prevTrackTapped(_ sender: Any) {
+        guard let prevTrack = delegate?.playPreviousTrack() else { return }
+        set(viewModel: prevTrack)
     }
     @IBAction func soundSliderDrag(_ sender: Any) {
     }
