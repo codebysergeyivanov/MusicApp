@@ -100,5 +100,6 @@ class TrackView: UIView {
         set(viewModel: prevTrack)
     }
     @IBAction func soundSliderDrag(_ sender: Any) {
+        player.volume = soundSlider.value
     }
 }
