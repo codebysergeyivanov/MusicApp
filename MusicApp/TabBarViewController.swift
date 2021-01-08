@@ -21,6 +21,8 @@ class TabBarViewController: UITabBarController {
             generateViewController(rootViewController: searchVC, image: UIImage(systemName: "magnifyingglass")!, title: "Search"),
             generateViewController(rootViewController: LibraryViewController(), image: UIImage(systemName: "music.note.list")!, title: "Library")
         ]
+        
+        setupTrackView()
     }
     
     private func generateViewController(rootViewController: UIViewController, image: UIImage, title: String) -> UINavigationController {
@@ -30,6 +32,11 @@ class TabBarViewController: UITabBarController {
         navigationVC.tabBarItem.image = image
         navigationVC.tabBarItem.title = title
         return navigationVC
+    }
+    
+    private func setupTrackView() {
+        let trackView: TrackView = TrackView.loadFromNib()
+        view.insertSubview(trackView, belowSubview: tabBar)
     }
 
 }
