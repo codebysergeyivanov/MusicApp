@@ -43,6 +43,7 @@ class TrackView: UIView {
             image.image = UIImage(systemName: "photo")
             image.tintColor = #colorLiteral(red: 0.9136453271, green: 0.9137768149, blue: 0.9136165977, alpha: 1)
         }
+        image.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         
         guard let  previewUrl = URL(string: viewModel.previewUrl) else {
             return
@@ -51,7 +52,21 @@ class TrackView: UIView {
         player.replaceCurrentItem(with: playerItem)
         player.play()
     }
+    
+    // MARK: - Animation
+    func enlargeTrackIcon() {
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: .curveEaseInOut, animations: {
+            self.image.transform = .identity
+        }, completion: nil)
+    }
+    
+    func reduceTrackIcon() {
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: .curveEaseInOut, animations: {
+            self.image.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        }, completion: nil)
+    }
 
+    // MARK: - @IBAction
     
     @IBAction func chevronTapped(_ sender: Any) {
        self.removeFromSuperview()
@@ -62,8 +77,10 @@ class TrackView: UIView {
     @IBAction func playpauseTapped(_ sender: Any) {
         if player.timeControlStatus == .paused {
             player.play()
+            enlargeTrackIcon()
         } else {
             player.pause()
+            reduceTrackIcon()
         }
     }
     @IBAction func nextTrackTapped(_ sender: Any) {
