@@ -58,7 +58,37 @@ class TrackView: UIView {
         }
         let playerItem = AVPlayerItem(url: previewUrl)
         player.replaceCurrentItem(with: playerItem)
+        monitorStartTime()
         player.play()
+    }
+    
+    // MARK: - Time
+    
+    func monitorStartTime() {
+        let time = CMTimeMake(value: 1, timescale: 3)
+        let times = [NSValue(time: time)]
+        player.addBoundaryTimeObserver(forTimes: times, queue: .main, using: {
+            [weak self] in
+            self?.enlargeTrackIcon()
+        })
+        setCurrentTime()
+    }
+    
+    func setCurrentTime() {
+        let interval = CMTimeMake(value: 1, timescale: 2)
+        player.addPeriodicTimeObserver(forInterval: interval, queue: .main, using: {[weak self] time in
+            self?.currentTime.text = time.covertToCustomTimeString()
+            
+            let duration = ((self?.player.currentItem?.duration ?? CMTimeMake(value: 1, timescale: 1)) - time).covertToCustomTimeString()
+            self?.trackDuration.text = "-\(duration)"
+            
+            self?.updateTimeSlider()
+        })
+    }
+    
+    func updateTimeSlider() {
+        let percent = CMTimeGetSeconds(self.player.currentTime()) / CMTimeGetSeconds(self.player.currentItem?.duration ?? CMTimeMake(value: 1, timescale: 1))
+        self.timeSlider.value = Float(percent)
     }
     
     // MARK: - Animation
@@ -81,7 +111,13 @@ class TrackView: UIView {
     }
     
     @IBAction func dragTimeSlider(_ sender: Any) {
+        let precent = self.timeSlider.value
+        let duration = CMTimeGetSeconds(self.player.currentItem?.duration  ?? CMTimeMake(value: 1, timescale: 1))
+        let seconds = Float64(precent) * duration
+        let seekSeconds = CMTimeMakeWithSeconds(seconds, preferredTimescale: 1)
+        player.currentItem?.seek(to: seekSeconds, completionHandler: nil)
     }
+    
     @IBAction func playpauseTapped(_ sender: Any) {
         if player.timeControlStatus == .paused {
             player.play()
