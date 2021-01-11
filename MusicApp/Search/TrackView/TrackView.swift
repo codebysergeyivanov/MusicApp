@@ -50,7 +50,7 @@ class TrackView: UIView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        onMiniPlayerTapped()
+        addGestureRecognizer()
     }
     
     
@@ -85,16 +85,95 @@ class TrackView: UIView {
     
     // MARK: - UI Gesture
     
-    func onMiniPlayerTapped() {
+    func addGestureRecognizer() {
         miniPlayer.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleOnTapMiniPlayer)))
+        
+        miniPlayer.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleOnPanMiniPlayer)))
+        
+        addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleOnPanMaxPlayer)))
     }
+    
     
     // MARK: - UI Gesure handler
     
     @objc func handleOnTapMiniPlayer() {
         trackViewDelegate?.maxSizeTrackView(viewModel: nil)
     }
+    
+    @objc func handleOnPanMiniPlayer(gesture: UIPanGestureRecognizer) {
+        switch gesture.state {
+        case .changed:
+            handleOnPanChanged(gesture: gesture)
+        case .ended:
+            handleOnPanEnded(gesture: gesture)
+        @unknown default:
+            print("default")
+        }
+    }
       
+    func handleOnPanChanged(gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: self.superview)
+        self.transform = CGAffineTransform(translationX: 0, y: translation.y)
+        
+        let newAlhfa = 1 + translation.y / 200
+        miniPlayer.alpha = newAlhfa < 0 ? 0 : newAlhfa
+        maxPlayer.alpha = -newAlhfa
+        
+    }
+    
+    func handleOnPanEnded(gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: self.superview)
+        let velocity = gesture.velocity(in: self.superview)
+        
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 2, options: .curveEaseInOut, animations: {
+            self.transform = .identity
+            if translation.y < -200 && velocity.y < -500 {
+                self.trackViewDelegate?.maxSizeTrackView(viewModel: nil)
+            } else {
+                self.miniPlayer.alpha = 1
+                self.maxPlayer.alpha = 0
+            }
+        }, completion: nil)
+    }
+    
+    @objc func handleOnPanMaxPlayer(gesture: UIPanGestureRecognizer) {
+        switch gesture.state {
+        case .changed:
+            handleOnPanMaxPlayerChanged(gesture: gesture)
+        case .ended:
+             handleOnPanMaxPlayerEnded(gesture: gesture)
+        @unknown default:
+            print("default")
+        }
+    }
+    
+    func handleOnPanMaxPlayerChanged(gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: superview)
+        self.transform = CGAffineTransform(translationX: 0, y: translation.y)
+        
+        let newAlhfa = 1 - translation.y / 200
+        print(newAlhfa)
+        miniPlayer.alpha = 1 - newAlhfa
+        maxPlayer.alpha = newAlhfa < 0 ? 0 : newAlhfa
+        
+    }
+    
+    func handleOnPanMaxPlayerEnded(gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: self.superview)
+        let velocity = gesture.velocity(in: self.superview)
+        
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0.7, options: .curveEaseOut, animations: {
+            self.transform = .identity
+            
+            if translation.y > 50 && velocity.y > 250 {
+                self.trackViewDelegate?.minSizeTrackView()
+            } else {
+                self.miniPlayer.alpha = 0
+                self.maxPlayer.alpha = 1
+            }
+        }, completion: nil)
+    }
+    
     // MARK: - Time
     
     func monitorStartTime() {
