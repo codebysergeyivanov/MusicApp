@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 
 class TabBarViewController: UITabBarController {
@@ -24,10 +25,14 @@ class TabBarViewController: UITabBarController {
         tabBar.tintColor = .purple
         
         searchVC.trackViewDelegate = self
+        
+        let hostVC = UIHostingController(rootView: LibraryView())
+        hostVC.tabBarItem.image = UIImage(systemName: "music.note")
+        hostVC.tabBarItem.title = "Library"
     
         viewControllers = [
-            generateViewController(rootViewController: searchVC, image: UIImage(systemName: "magnifyingglass")!, title: "Search"),
-            generateViewController(rootViewController: LibraryViewController(), image: UIImage(systemName: "music.note.list")!, title: "Library")
+            hostVC,
+            generateViewController(rootViewController: searchVC, image: UIImage(systemName: "magnifyingglass")!, title: "Search")
         ]
         
     }
