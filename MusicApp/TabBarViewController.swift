@@ -64,7 +64,7 @@ class TabBarViewController: UITabBarController {
 
 extension TabBarViewController: TrackViewDelegate {
     
-    func maxSizeTrackView(viewModel: Track) {
+    func maxSizeTrackView(viewModel: Track?) {
         if trackView == nil {
             setupTrackView()
         }
@@ -73,8 +73,12 @@ extension TabBarViewController: TrackViewDelegate {
         self.maxTop?.isActive = true
         
         self.tabBar.alpha = 0
+        trackView.miniPlayer.alpha = 0
+        trackView.maxPlayer.alpha = 1
         
-        trackView.set(viewModel: viewModel)
+        if let viewModel = viewModel {
+            trackView.set(viewModel: viewModel)
+        }
 
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 2, options: .curveEaseInOut, animations: {
             self.view.layoutIfNeeded()
@@ -85,6 +89,9 @@ extension TabBarViewController: TrackViewDelegate {
         self.maxTop?.isActive = false
         bottom?.constant = view.frame.height
         self.minTop?.isActive = true
+        
+        trackView.miniPlayer.alpha = 1
+        trackView.maxPlayer.alpha = 0
         
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 2, options: .curveEaseInOut, animations: {
             self.view.layoutIfNeeded()

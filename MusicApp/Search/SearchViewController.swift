@@ -177,5 +177,4 @@ extension SearchViewController: SwitchTrackDelegate {
         return switchTrack(isForwardTrack: false)
     }
     
-    
 }

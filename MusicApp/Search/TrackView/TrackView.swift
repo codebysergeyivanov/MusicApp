@@ -10,7 +10,7 @@ import SDWebImage
 import AVKit
 
 protocol TrackViewDelegate: class {
-    func maxSizeTrackView(viewModel: Track) -> Void
+    func maxSizeTrackView(viewModel: Track?) -> Void
     func minSizeTrackView() -> Void
 }
 
@@ -22,6 +22,14 @@ protocol SwitchTrackDelegate: class {
 
 class TrackView: UIView {
     
+    
+    @IBOutlet weak var miniPlayer: UIView!
+    @IBOutlet weak var miniTrackIcon: UIImageView!
+    @IBOutlet weak var miniTrackName: UILabel!
+    @IBOutlet weak var miniTrackAuthor: UILabel!
+    
+    
+    @IBOutlet weak var maxPlayer: UIStackView!
     @IBOutlet weak var chevron: UIButton!
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var timeSlider: UISlider!
@@ -42,10 +50,14 @@ class TrackView: UIView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        onMiniPlayerTapped()
     }
     
     
     func set(viewModel: Track) {
+        miniTrackName.text = viewModel.trackName
+        miniTrackAuthor.text = viewModel.artistName
+        
         trackName.text = viewModel.trackName
         trackAuthor.text = viewModel.artistName
         
@@ -53,9 +65,12 @@ class TrackView: UIView {
         let urlString = viewModel.imageUrl?.replacingOccurrences(of: "100x100", with: "600x600")
         if let url = URL(string: urlString ?? "") {
             image.sd_setImage(with: url, completed: nil)
+            miniTrackIcon.sd_setImage(with: url, completed: nil)
         } else {
             image.image = UIImage(systemName: "photo")
             image.tintColor = #colorLiteral(red: 0.9136453271, green: 0.9137768149, blue: 0.9136165977, alpha: 1)
+            miniTrackIcon.image = UIImage(systemName: "photo")
+            miniTrackIcon.tintColor = #colorLiteral(red: 0.9136453271, green: 0.9137768149, blue: 0.9136165977, alpha: 1)
         }
         image.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         
@@ -68,6 +83,18 @@ class TrackView: UIView {
         player.play()
     }
     
+    // MARK: - UI Gesture
+    
+    func onMiniPlayerTapped() {
+        miniPlayer.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleOnTapMiniPlayer)))
+    }
+    
+    // MARK: - UI Gesure handler
+    
+    @objc func handleOnTapMiniPlayer() {
+        trackViewDelegate?.maxSizeTrackView(viewModel: nil)
+    }
+      
     // MARK: - Time
     
     func monitorStartTime() {
