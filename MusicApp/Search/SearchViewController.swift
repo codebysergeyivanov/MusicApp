@@ -52,6 +52,12 @@ class SearchViewController: UIViewController, SearchDisplayLogic
     
     // MARK: View lifecycle
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let tabBarVC = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.rootViewController as? TabBarViewController
+        tabBarVC?.trackView?.delegate = self
+    }
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()

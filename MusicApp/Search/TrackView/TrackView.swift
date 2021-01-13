@@ -15,14 +15,12 @@ protocol TrackViewDelegate: class {
 }
 
 
-protocol SwitchTrackDelegate: class {
+protocol SwitchTrackDelegate {
     func playNextTrack() -> Track?
     func playPreviousTrack() -> Track?
 }
 
 class TrackView: UIView {
-    
-    
     @IBOutlet weak var miniPlayer: UIView!
     @IBOutlet weak var miniTrackIcon: UIImageView!
     @IBOutlet weak var miniTrackName: UILabel!
@@ -39,7 +37,7 @@ class TrackView: UIView {
     @IBOutlet weak var trackAuthor: UILabel!
     @IBOutlet weak var soundSlider: UISlider!
     
-    weak var delegate: SwitchTrackDelegate?
+    var delegate: SwitchTrackDelegate?
     weak var trackViewDelegate: TrackViewDelegate?
     
     var player: AVPlayer = {
@@ -60,7 +58,6 @@ class TrackView: UIView {
         
         trackName.text = viewModel.trackName
         trackAuthor.text = viewModel.artistName
-        
         
         let urlString = viewModel.imageUrl?.replacingOccurrences(of: "100x100", with: "600x600")
         if let url = URL(string: urlString ?? "") {

@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -45,10 +46,20 @@
                             </label>
                         </subviews>
                     </stackView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qJV-hF-rXx">
+                        <rect key="frame" x="335.5" y="27.5" width="21.5" height="20"/>
+                        <color key="tintColor" systemColor="systemPinkColor"/>
+                        <state key="normal" image="plus" catalog="system"/>
+                        <connections>
+                            <action selector="onTappedAddButton:" destination="65A-Xm-RwY" eventType="touchUpInside" id="l2F-97-abG"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="Fqj-m1-4dB" secondAttribute="bottom" constant="10" id="1xw-HP-HTK"/>
+                    <constraint firstAttribute="trailing" secondItem="qJV-hF-rXx" secondAttribute="trailing" constant="20" id="9AT-2T-blf"/>
                     <constraint firstItem="wFv-pd-WeH" firstAttribute="leading" secondItem="Qxa-m6-U3R" secondAttribute="leading" constant="15" id="9YK-o2-ywc"/>
+                    <constraint firstItem="qJV-hF-rXx" firstAttribute="centerY" secondItem="Qxa-m6-U3R" secondAttribute="centerY" id="CNt-QQ-Cgu"/>
                     <constraint firstAttribute="trailing" secondItem="Fqj-m1-4dB" secondAttribute="trailing" constant="15" id="L4k-OT-oNY"/>
                     <constraint firstItem="wFv-pd-WeH" firstAttribute="top" secondItem="Qxa-m6-U3R" secondAttribute="top" constant="10" id="PC1-Hh-Ctz"/>
                     <constraint firstItem="Fqj-m1-4dB" firstAttribute="leading" secondItem="wFv-pd-WeH" secondAttribute="trailing" constant="15" id="SLb-so-vWN"/>
@@ -56,6 +67,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="addButton" destination="qJV-hF-rXx" id="NIq-cH-X75"/>
                 <outlet property="artistName" destination="tK4-op-Db1" id="xn9-zA-Gct"/>
                 <outlet property="collectionName" destination="ipf-nk-NH0" id="xlg-Q5-nVF"/>
                 <outlet property="trackImage" destination="wFv-pd-WeH" id="UUN-8a-bba"/>
@@ -64,4 +76,10 @@
             <point key="canvasLocation" x="-61.594202898550726" y="8.3705357142857135"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="plus" catalog="system" width="128" height="113"/>
+        <systemColor name="systemPinkColor">
+            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>

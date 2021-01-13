@@ -11,6 +11,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 enum Search
 {
@@ -46,7 +47,8 @@ struct SearchResponse: Codable {
     let results: [Track]
 }
 
-struct Track: Codable, TrackCell {
+struct Track: Codable, Identifiable, Equatable {
+    var id = UUID()
     var artistName: String
     var collectionName: String?
     var trackName: String

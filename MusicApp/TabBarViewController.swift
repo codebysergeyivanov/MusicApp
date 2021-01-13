@@ -26,10 +26,13 @@ class TabBarViewController: UITabBarController {
         
         searchVC.trackViewDelegate = self
         
-        let hostVC = UIHostingController(rootView: LibraryView())
+        var libraryView = LibraryView()
+        libraryView.trackViewDelegate = self
+        let hostVC = UIHostingController(rootView: libraryView)
         hostVC.tabBarItem.image = UIImage(systemName: "music.note")
         hostVC.tabBarItem.title = "Library"
-    
+        
+        
         viewControllers = [
             hostVC,
             generateViewController(rootViewController: searchVC, image: UIImage(systemName: "magnifyingglass")!, title: "Search")
@@ -48,7 +51,6 @@ class TabBarViewController: UITabBarController {
     
     private func setupTrackView() {
         trackView = TrackView.loadFromNib()
-        trackView.delegate = searchVC
         trackView.trackViewDelegate = self
         view.insertSubview(trackView, belowSubview: tabBar)
         

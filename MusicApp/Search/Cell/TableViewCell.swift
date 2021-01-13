@@ -19,15 +19,19 @@ class TableViewCell: UITableViewCell {
     
     static let reuseId = "TrackCell"
 
+    @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var trackImage: UIImageView!
     @IBOutlet weak var trackName: UILabel!
     @IBOutlet weak var artistName: UILabel!
     @IBOutlet weak var collectionName: UILabel!
     
+    var track: Track?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
+    
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -35,7 +39,9 @@ class TableViewCell: UITableViewCell {
         trackImage.image = nil
     }
 
-    func set(viewModel: TrackCell) {
+    func set(viewModel: Track) {
+        self.track = viewModel
+        
         trackName.text = viewModel.trackName
         artistName.text = viewModel.artistName
         collectionName.text = viewModel.collectionName
@@ -46,6 +52,45 @@ class TableViewCell: UITableViewCell {
             trackImage.image = UIImage(systemName: "photo")
             trackImage.tintColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         }
+        
+        let userDefaults = UserDefaults.standard
+        
+        do {
+            let response = try userDefaults.getObject(forKey: "tracks", castTo: SearchResponse.self)
+            self.addButton.isHidden = response.results.firstIndex(where: {
+                $0.trackName == self.trackName.text && $0.artistName == self.artistName.text
+            }) != nil
+        } catch {
+            print(error.localizedDescription)
+        }
     }
-
+    
+    @IBAction func onTappedAddButton(_ sender: Any) {
+        guard let currentTrack = self.track else { return }
+        
+        self.addButton.isHidden = true
+        
+        var addedTracks = [Track]()
+        
+        let userDefaults = UserDefaults.standard
+        
+        do {
+            let response = try userDefaults.getObject(forKey: "tracks", castTo: SearchResponse.self)
+            addedTracks.append(contentsOf: response.results)
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        addedTracks.append(currentTrack)
+        
+        let searchResponse = SearchResponse(resultCount: addedTracks.count, results: addedTracks)
+        
+    
+        do {
+            try userDefaults.setObject(searchResponse, forKey: "tracks")
+            print("The track has saved successfully")
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
 }
